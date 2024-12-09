@@ -37,11 +37,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const publishedDate = new Date(publishedAt);
-    if (isNaN(publishedDate.getTime())) {
-      return NextResponse.json({ error: "Invalid date format for publishedAt" }, { status: 400 });
-    }
-
     const imageData = images.length > 0 ? images.map((url: string) => url) : [];
 
     const createdBook = await prisma.book.create({
@@ -50,7 +45,7 @@ export async function POST(request: NextRequest) {
         author,
         category,
         publisher,
-        publishedAt: publishedDate,
+        publishedAt,
         description,
         price,
         stock,
