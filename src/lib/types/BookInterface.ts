@@ -4,7 +4,7 @@ export interface BookArgs {
   author: string;
   category: string;
   publisher: string;
-  publishedAt: Date;
+  publishedAt: string;
   description: string;
   price: number;
   stock: number;
