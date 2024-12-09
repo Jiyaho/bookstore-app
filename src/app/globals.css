@@ -1,3 +1,5 @@
+@import url("https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2/fonts/static/woff2/SUIT.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,5 +19,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "SUIT", sans-serif;
 }
