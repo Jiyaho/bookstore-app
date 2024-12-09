@@ -4,7 +4,7 @@ import { Book } from "@/lib/models/Book.model";
 import { getBookDetail } from "@/lib/api/book/api";
 
 export const useGetBookDetail = (id: string) => {
-  return useQuery({
+  return useQuery<Book>({
     queryKey: [BOOK_QUERY_KEY.BOOK_DETAIL_KEY, id],
     queryFn: async () => {
       const data = await getBookDetail(id);

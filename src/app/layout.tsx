@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { NextUIProvider } from "@nextui-org/react";
 import { Footer } from "@/components/UI/Common/Footer/Footer";
+import Providers from "@/components/Context/Common/Providers/Providers";
 
 export const metadata: Metadata = {
   title: "Bookstore App",
@@ -16,10 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <NextUIProvider>
+        <Providers>
           {children}
           <Footer />
-        </NextUIProvider>
+        </Providers>
       </body>
     </html>
   );

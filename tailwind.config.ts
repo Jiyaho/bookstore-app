@@ -33,15 +33,15 @@ export default {
         light: {
           colors: {
             primary: {
-              DEFAULT: "#FFC552",
+              DEFAULT: "#188953",
             },
             secondary: {
               DEFAULT: "#000000",
             },
             danger: {
-              DEFAULT: "#FF0000",
+              DEFAULT: "#CC3624",
             },
-            focus: "#000000",
+            focus: "#FFC552",
           },
         },
       },

@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = await params;
   try {
-    const book = await prisma.book.findUnique({ where: { id: parseInt(id) } });
+    const book = await prisma.book.findUnique({ where: { id } });
     if (!book) {
       return NextResponse.json({ error: "Book not found" }, { status: 404 });
     }
@@ -34,19 +34,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       images,
     } = body;
 
-    const publishedDate = new Date(publishedAt);
-    if (isNaN(publishedDate.getTime())) {
-      return NextResponse.json({ error: "Invalid date format for publishedAt" }, { status: 400 });
-    }
-
     const updatedBook = await prisma.book.update({
-      where: { id: parseInt(id) },
+      where: { id },
       data: {
         title,
         author,
         category,
         publisher,
-        publishedAt: publishedDate,
+        publishedAt,
         description,
         price,
         stock,
@@ -70,7 +65,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = await params;
   try {
-    const deletedBook = await prisma.book.delete({ where: { id: parseInt(id) } });
+    const deletedBook = await prisma.book.delete({ where: { id } });
     if (!deletedBook) {
       return NextResponse.json({ error: "Book not found" }, { status: 404 });
     }
