@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // GET all books
 export async function GET(request: NextRequest) {
@@ -19,10 +17,22 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const { title, author, publisher, publishedAt, description, price, stock, imageUrl } = body;
-    if (!title || !author || !price || !stock) {
+    const {
+      title,
+      author,
+      category,
+      publisher,
+      publishedAt,
+      description,
+      price,
+      stock,
+      coverImage,
+      images,
+    } = body;
+
+    if (!title || !author || !category || !publisher || !price || !stock) {
       return NextResponse.json(
-        { error: "Missing required fields: title, author, price, stock" },
+        { error: "Missing required fields: title, author, category, publisher, price, stock" },
         { status: 400 },
       );
     }
@@ -32,16 +42,22 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid date format for publishedAt" }, { status: 400 });
     }
 
+    const imageData = images.length > 0 ? images.map((url: string) => url) : [];
+
     const createdBook = await prisma.book.create({
       data: {
         title,
         author,
+        category,
         publisher,
         publishedAt: publishedDate,
         description,
         price,
         stock,
-        imageUrl: imageUrl || null,
+        coverImage: coverImage || null,
+        images: {
+          create: imageData,
+        },
       },
     });
 

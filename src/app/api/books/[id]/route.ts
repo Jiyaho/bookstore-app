@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 // GET a book by id
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
@@ -23,7 +21,18 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   const { id } = await params;
   try {
     const body = await request.json();
-    const { title, author, publisher, publishedAt, description, price, stock, imageUrl } = body;
+    const {
+      title,
+      author,
+      category,
+      publisher,
+      publishedAt,
+      description,
+      price,
+      stock,
+      coverImage,
+      images,
+    } = body;
 
     const publishedDate = new Date(publishedAt);
     if (isNaN(publishedDate.getTime())) {
@@ -35,12 +44,14 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       data: {
         title,
         author,
+        category,
         publisher,
         publishedAt: publishedDate,
         description,
         price,
         stock,
-        imageUrl: imageUrl || null,
+        coverImage: coverImage || null,
+        images: images || [],
       },
     });
 
