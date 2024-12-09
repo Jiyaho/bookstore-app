@@ -8,15 +8,24 @@ datasource db {
 }
 
 model Book {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   author      String
+  category    String
   publisher   String
   publishedAt DateTime
   description String
   price       Int
   stock       Int
-  imageUrl    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  coverImage  String?
+  images      Image[]  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Image {
+  id      Int    @id @default(autoincrement())
+  url     String 
+  bookId  Int    
+  book    Book   @relation(fields: [bookId], references: [id]) 
 }
