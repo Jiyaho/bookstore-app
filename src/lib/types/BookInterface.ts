@@ -24,5 +24,5 @@ export interface SubmitBookArgs {
   price: number;
   stock: number;
   coverImage: string | null;
-  images: string[] | null;
+  images: string[] | [];
 }
