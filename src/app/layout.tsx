@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Footer } from "@/components/UI/Common/Footer/Footer";
 import Providers from "@/components/Context/Common/Providers/Providers";
+import Header from "@/components/Context/Common/Header/Header";
 
 export const metadata: Metadata = {
   title: "Bookstore App",
@@ -15,9 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
+      <body className="lg:max-w-screen-lg mx-auto">
         <Providers>
-          {children}
+          <Header />
+          <main className="flex flex-col min-h-screen">{children}</main>
           <Footer />
         </Providers>
       </body>

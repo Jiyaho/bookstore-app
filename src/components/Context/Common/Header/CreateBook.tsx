@@ -1,8 +1,8 @@
 "use client";
 
 import { BookInputForm } from "@/components/UI/Common/Form/BookInputForm";
-import { useUpdateBook } from "@/hooks/useUpdateBook";
-import { SubmitBookArgs, BookArgs } from "@/lib/types/BookInterface";
+import { useCreateBook } from "@/hooks/useCreateBook";
+import { SubmitBookArgs } from "@/lib/types/BookInterface";
 import {
   Modal,
   ModalContent,
@@ -11,20 +11,11 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
-import { Pencil } from "lucide-react";
-import { useEffect, useState } from "react";
+import { BookOpen } from "lucide-react";
 
-interface UpdateBookProps {
-  initialBookData: BookArgs;
-}
-
-export const UpdateBookDetail = ({ initialBookData }: UpdateBookProps) => {
+export const CreateBook = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const { mutate: updateBook, isPending } = useUpdateBook(initialBookData.id.toString());
-
-  const [formData, setFormData] = useState<SubmitBookArgs>(initialBookData);
-
-  useEffect(() => setFormData(initialBookData), [initialBookData]);
+  const { mutate: createBook, isPending } = useCreateBook();
 
   const validateFormData = (formData: FormData): boolean => {
     const publishedAt = formData.get("publishedAt") as string;
@@ -48,37 +39,36 @@ export const UpdateBookDetail = ({ initialBookData }: UpdateBookProps) => {
     images: [],
   });
 
-  const handleUpdateBook = (formData: FormData) => {
+  const handleCreateBook = (formData: FormData) => {
     if (!validateFormData(formData)) return;
 
     const data = transformFormData(formData);
 
-    updateBook(data, {
+    createBook(data, {
       onSuccess: () => {
-        alert("책이 수정되었습니다!");
+        alert("책이 등록되었습니다!");
         onClose();
       },
       onError: (err) => {
-        console.error("수정 중 오류 발생:", err);
-        alert("책 수정에 실패했습니다.");
+        console.error("등록 중 오류 발생:", err);
+        alert("책 등록에 실패했습니다.");
       },
     });
   };
 
   return (
     <>
-      <Button onPress={onOpen} size="sm" radius="full" className="bg-main-yellow">
-        <Pencil size={15} /> 수정하기
+      <Button color="primary" onPress={onOpen} size="md" className="rounded-full">
+        <BookOpen size={17} />책 등록하기
       </Button>
       <Modal isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange} size="xl">
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">책 수정하기</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">새로운 책 등록하기</ModalHeader>
           <ModalBody>
             <BookInputForm
               onClose={onClose}
               isPending={isPending}
-              handleSubmit={handleUpdateBook}
-              initialData={initialBookData}
+              handleSubmit={handleCreateBook}
             />
           </ModalBody>
         </ModalContent>
