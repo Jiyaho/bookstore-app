@@ -19,6 +19,9 @@ export const BookList = () => {
 
   return (
     <section className="p-4">
+      <div className="text-lg text-main-gray font-semibold mb-4 text-end">
+        총 <span className="text-primary text-xl font-extrabold">{total}권</span>의 책이 있습니다.
+      </div>
       <div className="flex flex-col gap-5">
         {books.map((book) => (
           <Book key={book.id} book={book} />

@@ -33,7 +33,7 @@ export default {
         light: {
           colors: {
             primary: {
-              DEFAULT: "#188953",
+              DEFAULT: "rgb(5 150 105)",
             },
             secondary: {
               DEFAULT: "#000000",
@@ -41,7 +41,9 @@ export default {
             danger: {
               DEFAULT: "#CC3624",
             },
-            focus: "#FFC552",
+            focus: {
+              DEFAULT: "#FFC552",
+            },
           },
         },
       },

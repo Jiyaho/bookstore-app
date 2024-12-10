@@ -1,9 +1,9 @@
 "use client";
 
 import { BookDetailForm } from "@/components/UI/BookDetail/BookDetailForm";
-import { BookDetailNavigation } from "@/components/UI/BookDetail/BookDetailNavigation";
 import { useGetBookDetail } from "@/hooks/useGetBookDetail";
 import { usePathname } from "next/navigation";
+import { UpdateBookDetail } from "./UpdateBookDetail";
 
 const BookDetailPage = () => {
   const bookId = usePathname().split("/").pop();
@@ -15,7 +15,9 @@ const BookDetailPage = () => {
 
   return (
     <div className="p-4">
-      <BookDetailNavigation book={book} />
+      <div className="py-4 flex justify-end">
+        <UpdateBookDetail initialBookData={book} />
+      </div>
       <BookDetailForm book={book} />
     </div>
   );
