@@ -35,4 +35,12 @@ export class Book {
   getPublishedAt(publishedAt: string) {
     return publishedAt.slice(0, 4) + "." + publishedAt.slice(4, 6) + "." + publishedAt.slice(6, 8);
   }
+
+  // price를 포맷팅하여 반환하는 메서드 (10000 -> 10,000원)
+  getFormattedPrice() {
+    return this.price.toLocaleString("ko-KR", {
+      style: "currency",
+      currency: "KRW",
+    });
+  }
 }
