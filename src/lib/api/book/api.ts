@@ -2,8 +2,8 @@ import { axiosInstance } from "@/lib/api/axiosInstance";
 import { API_URL } from "@/lib/api/apiUrls";
 import { SubmitBookArgs } from "@/lib/types/BookInterface";
 
-export const getBookList = async () => {
-  const response = await axiosInstance.get(API_URL.BOOK_LIST_URL);
+export const getPaginatedBookList = async (page: number, limit: number) => {
+  const response = await axiosInstance.get(`${API_URL.BOOK_LIST_URL}?page=${page}&limit=${limit}`);
   return response.data;
 };
 
