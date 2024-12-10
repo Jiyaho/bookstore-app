@@ -19,8 +19,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 // PUT a book by id
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
   const { id } = await params;
+
   try {
     const body = await request.json();
+
     const {
       title,
       author,
@@ -46,7 +48,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
         price,
         stock,
         coverImage: coverImage || null,
-        images: images || [],
+        images: {
+          set: images.length > 0 ? images.map((url: string) => ({ url })) : [],
+        },
       },
     });
 

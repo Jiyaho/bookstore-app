@@ -1,7 +1,20 @@
+import { UpdateBookDetail } from "@/components/Context/BookDetail/UpdateBookDetail";
+import { Book } from "@/lib/models/Book.model";
 import { Button } from "@nextui-org/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-export const BookDetailNavigation = () => {
+interface BookDetailNavigationProps {
+  book: Book;
+}
+
+export const BookDetailNavigation = ({ book }: BookDetailNavigationProps) => {
   const router = useRouter();
-  return <Button onClick={() => router.back()}>목록으로 돌아가기</Button>;
+
+  console.log(book);
+  return (
+    <div className="flex justify-between items-center">
+      <Button onClick={() => router.back()}>목록으로 돌아가기</Button>
+      <UpdateBookDetail initialBookData={book} />
+    </div>
+  );
 };

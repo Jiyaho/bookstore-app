@@ -15,7 +15,7 @@ const BookDetailPage = () => {
 
   return (
     <div className="p-4">
-      <BookDetailNavigation />
+      <BookDetailNavigation book={book} />
       <BookDetailForm book={book} />
     </div>
   );
