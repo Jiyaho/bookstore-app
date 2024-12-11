@@ -6,11 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "prisma:dev": "prisma migrate dev --schema=./prisma/schema.dev.prisma",
-    "prisma:prod": "prisma migrate deploy --schema=./prisma/schema.prod.prisma",
-    "prisma:generate:dev": "prisma generate --schema=./prisma/schema.dev.prisma",
-    "prisma:generate:prod": "prisma generate --schema=./prisma/schema.prod.prisma"
+    "lint": "next lint"
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.5",
@@ -22,7 +18,9 @@
     "lucide-react": "^0.468.0",
     "next": "15.0.4",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "prisma:init": "npx dotenv -e .env.production -- prisma migrate dev --name init",
+    "prisma:deploy": "npx dotenv -e .env.production -- prisma migrate deploy"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
@@ -30,6 +28,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/supertest": "^6.0.2",
+    "dotenv-cli": "^7.4.4",
     "eslint": "^8",
     "eslint-config-next": "15.0.4",
     "jest": "^29.7.0",
