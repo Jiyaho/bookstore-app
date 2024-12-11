@@ -53,6 +53,7 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("Error in /api/search:", error);
+    // 에러 응답 반환
     return NextResponse.json({ success: false, error: "Failed to fetch books" }, { status: 500 });
   }
 }

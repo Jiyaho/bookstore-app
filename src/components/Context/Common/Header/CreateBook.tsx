@@ -17,15 +17,6 @@ export const CreateBook = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { mutate: createBook, isPending } = useCreateBook();
 
-  const validateFormData = (formData: FormData): boolean => {
-    const publishedAt = formData.get("publishedAt") as string;
-    if (!/^\d{8}$/.test(publishedAt)) {
-      alert("출판일은 8자리 숫자여야 합니다. 예: 20241210");
-      return false;
-    }
-    return true;
-  };
-
   const transformFormData = (formData: FormData): SubmitBookArgs => ({
     title: formData.get("title") as string,
     author: formData.get("author") as string,
@@ -40,8 +31,6 @@ export const CreateBook = () => {
   });
 
   const handleCreateBook = (formData: FormData) => {
-    if (!validateFormData(formData)) return;
-
     const data = transformFormData(formData);
 
     createBook(data, {
@@ -49,9 +38,15 @@ export const CreateBook = () => {
         alert("책이 등록되었습니다!");
         onClose();
       },
-      onError: (err) => {
+      onError: (err: any) => {
         console.error("등록 중 오류 발생:", err);
-        alert("책 등록에 실패했습니다.");
+
+        // HTTP 상태 코드로 에러 분기 처리
+        if (err.response?.status === 409) {
+          alert("도서명, 저자명, 출판사가 모두 같아 중복된 책으로 등록이 불가합니다.");
+        } else {
+          alert("책 등록에 실패했습니다.");
+        }
       },
     });
   };
