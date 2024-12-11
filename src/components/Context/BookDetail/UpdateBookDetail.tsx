@@ -22,7 +22,7 @@ export const UpdateBookDetail = ({ initialBookData }: UpdateBookProps) => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { mutate: updateBook, isPending } = useUpdateBook(initialBookData.id.toString());
 
-  const [formData, setFormData] = useState<SubmitBookArgs>(initialBookData);
+  const [, setFormData] = useState<SubmitBookArgs>(initialBookData);
 
   useEffect(() => setFormData(initialBookData), [initialBookData]);
 

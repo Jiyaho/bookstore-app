@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:init": "npx dotenv -e .env.production -- prisma migrate dev --name init",
+    "prisma:deploy": "npx dotenv -e .env.production -- prisma migrate deploy"
   },
   "dependencies": {
     "@nextui-org/react": "^2.6.5",
@@ -18,9 +20,7 @@
     "lucide-react": "^0.468.0",
     "next": "15.0.4",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "prisma:init": "npx dotenv -e .env.production -- prisma migrate dev --name init",
-    "prisma:deploy": "npx dotenv -e .env.production -- prisma migrate deploy"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",

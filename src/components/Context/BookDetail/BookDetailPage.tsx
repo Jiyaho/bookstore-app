@@ -6,9 +6,7 @@ import { usePathname } from "next/navigation";
 import { UpdateBookDetail } from "./UpdateBookDetail";
 
 const BookDetailPage = () => {
-  const bookId = usePathname().split("/").pop();
-  if (!bookId) return <div>Not Found</div>;
-
+  const bookId = usePathname().split("/").pop() || "";
   const { data: book, isLoading } = useGetBookDetail(bookId);
   if (isLoading) return <div>Loading...</div>;
   if (!book) return <div>Not Found</div>;
