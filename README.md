@@ -7,7 +7,7 @@
 
 ## 🌐 배포 URL
 
-👉 [Bookstore App](https://bookstore-app-idj7.vercel.app/)
+👉 [Bookstore App](https://bookstore-app-murex.vercel.app/)
 
 ---
 
