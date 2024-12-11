@@ -14,7 +14,7 @@
 ## 📹 구현 동영상
 
 애플리케이션의 주요 기능을 확인할 수 있는 데모 동영상:  
-👉 [Demo Video](https://bookstore-app-idj7.vercel.app/)
+👉 [Demo Video](https://youtu.be/Lkdk3hQdMxU)
 
 ---
 
