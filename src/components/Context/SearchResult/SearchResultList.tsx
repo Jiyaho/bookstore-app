@@ -5,15 +5,17 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Pagination } from "@/components/UI/Main/Pagination/Pagination";
 import { Book } from "../Main/Book/Book";
+import { AxiosError } from "axios";
 
 export const SearchResultList = () => {
   const searchParams = useSearchParams();
-  const keyword = searchParams.get("keyword") || ""; // 기본값은 빈 문자열
-  const filter = searchParams.get("filter") || "all"; // 기본값은 "all"
-  const initialPage = parseInt(searchParams.get("page") || "1", 10); // 기본값은 1
-  const itemsPerPage = parseInt(searchParams.get("limit") || "10", 10); // 기본값은 10
+  const keyword = searchParams.get("keyword") || "";
+  const filter = searchParams.get("filter") || "all";
+  const initialPage = parseInt(searchParams.get("page") || "1", 10);
+  const itemsPerPage = parseInt(searchParams.get("limit") || "10", 10);
 
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   const { data, isLoading, error } = useGetSearchResult({
     keyword,
@@ -22,16 +24,17 @@ export const SearchResultList = () => {
     limit: itemsPerPage,
   });
 
-  console.log("검색결과:", data);
-
   useEffect(() => {
-    // URL의 page 값이 변경될 경우, currentPage를 업데이트
     setCurrentPage(initialPage);
-  }, [initialPage]);
+    setIsNotFound(false);
+  }, [initialPage, keyword, filter]);
+
+  if (error instanceof AxiosError && error.response?.status === 404) {
+    return <div>검색된 결과가 없습니다.</div>;
+  }
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading search results.</div>;
-  if (!data) return <div>검색 결과가 없습니다.</div>;
+  if (isNotFound || !data || !data.data) return <div>검색된 결과가 없습니다.</div>;
 
   const { data: searchResults, total } = data;
 

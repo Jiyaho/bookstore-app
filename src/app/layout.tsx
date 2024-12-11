@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="lg:max-w-screen-lg mx-auto">
+      <body className="md:max-w-screen-[95vw] lg:max-w-screen-lg mx-auto">
         <Providers>
           <Header />
           <main className="flex flex-col min-h-screen">{children}</main>
