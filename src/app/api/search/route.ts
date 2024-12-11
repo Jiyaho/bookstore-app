@@ -16,7 +16,7 @@ export async function GET(req: Request) {
 
   try {
     // 검색 조건 생성
-    let whereClause: any = {};
+    let whereClause = {};
     if (filter === "total" && keyword) {
       whereClause = {
         OR: [{ title: { contains: keyword } }, { author: { contains: keyword } }],
