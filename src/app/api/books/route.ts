@@ -45,13 +45,37 @@ export async function POST(request: NextRequest) {
       price,
       stock,
       coverImage,
-      images,
+      images = [], // 기본값 설정
     } = body;
 
     if (!title || !author || !category || !publisher || !price || !stock) {
       return NextResponse.json(
         { error: "Missing required fields: title, author, category, publisher, price, stock" },
         { status: 400 },
+      );
+    }
+
+    // 가격과 재고 음수 체크 추가
+    if (price < 0 || stock < 0) {
+      return NextResponse.json(
+        { error: "Price and stock must be positive numbers." },
+        { status: 400 },
+      );
+    }
+
+    // 중복 도서 체크 추가
+    const existingBook = await prisma.book.findFirst({
+      where: {
+        title,
+        author,
+        publisher,
+      },
+    });
+
+    if (existingBook) {
+      return NextResponse.json(
+        { error: "A book with the same title, author, and publisher already exists." },
+        { status: 409 },
       );
     }
 
