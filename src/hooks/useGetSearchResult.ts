@@ -15,7 +15,6 @@ export const useGetSearchResult = ({ keyword, filter, page, limit }: UseGetSearc
     queryKey: [SEARCH_QUERY_KEY.SEARCH_RESULT_KEY, keyword, filter, page, limit],
     queryFn: async () => {
       const data = await getSearchResultByKeyword({ keyword, filter, page, limit });
-      console.log("hook검색결과:", data.data);
 
       return {
         data: data.data.map((item: Book) => new Book(item)),
@@ -24,5 +23,8 @@ export const useGetSearchResult = ({ keyword, filter, page, limit }: UseGetSearc
     },
     staleTime: 5000,
     gcTime: 100000,
+    retry: false,
+    retryOnMount: false,
+    refetchOnWindowFocus: false,
   });
 };

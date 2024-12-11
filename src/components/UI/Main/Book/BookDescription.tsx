@@ -13,6 +13,7 @@ export const BookDescription = ({ book }: BookProps) => {
       <p className="text-sm text-gray-500">{book.publishedAt}</p>
       <p className="text-sm text-gray-800 font-semibold mt-2">{book.getFormattedPrice()}</p>
       <p className="text-sm text-gray-600 mt-2 line-clamp-3">{book.description}</p>
+      <p className="text-sm text-main-red mt-2 font-bold">재고 수량: {book.stock}권</p>
     </div>
   );
 };
