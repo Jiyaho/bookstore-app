@@ -4,7 +4,7 @@ export interface BookArgs {
   author: string;
   category: string;
   publisher: string;
-  publishedAt: Date;
+  publishedAt: string;
   description: string;
   price: number;
   stock: number;
@@ -24,5 +24,5 @@ export interface SubmitBookArgs {
   price: number;
   stock: number;
   coverImage: string | null;
-  images: string[] | null;
+  images: string[] | [];
 }

@@ -1,13 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET all books
+// GET paginated books
 export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get("page") || "1");
+  const limit = parseInt(searchParams.get("limit") || "10");
+
   try {
-    const books = await prisma.book.findMany();
-    return NextResponse.json(books, { status: 200 });
+    const books = await prisma.book.findMany({
+      skip: (page - 1) * limit, // 해당 페이지의 첫 데이터 위치
+      take: limit, // 페이지당 데이터 개수
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const total = await prisma.book.count();
+
+    return NextResponse.json({
+      data: books,
+      total, // 전체 데이터 개수
+      page, // 현재 페이지
+      limit, // 페이지당 데이터 수
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching paginated books:", error);
     return NextResponse.json({ error: "Failed to fetch books" }, { status: 500 });
   }
 }
@@ -27,7 +45,7 @@ export async function POST(request: NextRequest) {
       price,
       stock,
       coverImage,
-      images,
+      images = [], // 기본값 설정
     } = body;
 
     if (!title || !author || !category || !publisher || !price || !stock) {
@@ -37,9 +55,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const publishedDate = new Date(publishedAt);
-    if (isNaN(publishedDate.getTime())) {
-      return NextResponse.json({ error: "Invalid date format for publishedAt" }, { status: 400 });
+    // 가격과 재고 음수 체크 추가
+    if (price < 0 || stock < 0) {
+      return NextResponse.json(
+        { error: "Price and stock must be positive numbers." },
+        { status: 400 },
+      );
+    }
+
+    // 중복 도서 체크 추가
+    const existingBook = await prisma.book.findFirst({
+      where: {
+        title,
+        author,
+        publisher,
+      },
+    });
+
+    if (existingBook) {
+      return NextResponse.json(
+        { error: "A book with the same title, author, and publisher already exists." },
+        { status: 409 },
+      );
     }
 
     const imageData = images.length > 0 ? images.map((url: string) => url) : [];
@@ -50,7 +87,7 @@ export async function POST(request: NextRequest) {
         author,
         category,
         publisher,
-        publishedAt: publishedDate,
+        publishedAt,
         description,
         price,
         stock,

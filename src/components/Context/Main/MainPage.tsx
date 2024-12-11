@@ -1,14 +1,12 @@
 import { PageTitle } from "@/components/UI/Common/Title/PageTitle";
-import { BookList } from "./BookList";
-import { SearchBar } from "./SearchBar";
+import { BookList } from "./Book/BookList";
 
 const MainPage = () => {
   return (
-    <main>
-      <SearchBar />
+    <>
       <PageTitle title="도서 목록" />
       <BookList />
-    </main>
+    </>
   );
 };
 
