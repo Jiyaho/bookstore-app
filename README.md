@@ -103,7 +103,7 @@
 - 기술 스택
 
   - Framework: Next.js (API Routes)
-  - Database: SQLite (개발/테스트 환경), PostgreSQL (운영 환경)
+  - Database: Supabase + PostgreSQL (프로덕션 환경), SQLite (개발/테스트 환경)
   - ORM: Prisma
 
 - 구현 내용
