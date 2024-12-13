@@ -11,6 +11,7 @@ import {
   Button,
   useDisclosure,
 } from "@nextui-org/react";
+import { AxiosError } from "axios";
 import { Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -60,7 +61,15 @@ export const UpdateBookDetail = ({ initialBookData }: UpdateBookProps) => {
       },
       onError: (err) => {
         console.error("수정 중 오류 발생:", err);
-        alert("책 수정에 실패했습니다.");
+
+        // HTTP 상태 코드로 에러 분기 처리
+        if (err instanceof AxiosError && err.response?.status === 409) {
+          alert(
+            "이미 등록된 도서로 수정이 불가합니다. (동일한 도서명, 저자명, 출판사가 존재합니다.)",
+          );
+        } else {
+          alert("책 수정에 실패했습니다.");
+        }
       },
     });
   };
