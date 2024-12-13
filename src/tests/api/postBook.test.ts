@@ -13,7 +13,7 @@ describe("POST /api/books", () => {
     const response = await request.post("/api/books").send({});
     expect(response.status).toBe(400);
     expect(response.body.error).toBe(
-      "Missing required fields: title, author, category, publisher, price, stock",
+      "Missing required fields: title, author, category, publisher, price, stock, publishedAt, description",
     );
   });
 
@@ -116,8 +116,12 @@ describe("POST /api/books", () => {
       author: "Author Name",
       category: "Fiction",
       publisher: "Test Publisher",
+      publishedAt: "20241211",
+      description: "Test description",
       price: -1000,
       stock: -5,
+      coverImage: null,
+      images: [],
     };
 
     const response = await request.post("/api/books").send(book);

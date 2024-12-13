@@ -12,6 +12,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { BookOpen } from "lucide-react";
+import { AxiosError } from "axios";
 
 export const CreateBook = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -38,11 +39,11 @@ export const CreateBook = () => {
         alert("책이 등록되었습니다!");
         onClose();
       },
-      onError: (err: any) => {
-        console.error("등록 중 오류 발생:", err);
+      onError: (error: Error) => {
+        console.error("등록 중 오류 발생:", error);
 
         // HTTP 상태 코드로 에러 분기 처리
-        if (err.response?.status === 409) {
+        if (error instanceof AxiosError && error.response?.status === 409) {
           alert("도서명, 저자명, 출판사가 모두 같아 중복된 책으로 등록이 불가합니다.");
         } else {
           alert("책 등록에 실패했습니다.");

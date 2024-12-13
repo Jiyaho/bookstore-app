@@ -37,24 +37,6 @@ export const BookDetailForm = ({ book }: BookDetailFormProps) => {
         <h4 className="text-2xl font-semibold mb-2">Description</h4>
         <p className="text-lg text-gray-700 text-justify">{book.description}</p>
       </div>
-
-      {/* 책 이미지 갤러리 */}
-      {book.images && book.images.length > 0 && (
-        <div className="mb-8">
-          <h4 className="text-2xl font-semibold mb-2">Gallery</h4>
-          <div className="flex gap-4 overflow-x-auto">
-            {book.images.map((image, index) => (
-              <div key={index} className="flex-none w-48">
-                <img
-                  src={image}
-                  alt={`image-${index}`}
-                  className="w-full h-72 object-cover rounded-lg"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

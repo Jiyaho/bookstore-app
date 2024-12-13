@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import isValidDate from "@/lib/utils/isValidateDate";
 
 // GET paginated books
 export async function GET(request: NextRequest) {
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST a book
+// POST a new book
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -45,17 +46,30 @@ export async function POST(request: NextRequest) {
       price,
       stock,
       coverImage,
-      images = [], // 기본값 설정
+      images = [],
     } = body;
 
-    if (!title || !author || !category || !publisher || !price || !stock) {
+    // 필수 필드 체크
+    if (
+      !title ||
+      !author ||
+      !category ||
+      !publisher ||
+      !price ||
+      !stock ||
+      !publishedAt ||
+      !description
+    ) {
       return NextResponse.json(
-        { error: "Missing required fields: title, author, category, publisher, price, stock" },
+        {
+          error:
+            "Missing required fields: title, author, category, publisher, price, stock, publishedAt, description",
+        },
         { status: 400 },
       );
     }
 
-    // 가격과 재고 음수 체크 추가
+    // 가격과 재고 음수 체크
     if (price < 0 || stock < 0) {
       return NextResponse.json(
         { error: "Price and stock must be positive numbers." },
@@ -63,7 +77,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 중복 도서 체크 추가
+    // 출판일 유효성 체크 (YYYYMMDD 형식)
+    if (!isValidDate(publishedAt)) {
+      return NextResponse.json({ error: "Invalid publication date format." }, { status: 400 });
+    }
+
+    // 중복 도서 체크
     const existingBook = await prisma.book.findFirst({
       where: {
         title,
@@ -81,6 +100,7 @@ export async function POST(request: NextRequest) {
 
     const imageData = images.length > 0 ? images.map((url: string) => url) : [];
 
+    // 도서 생성
     const createdBook = await prisma.book.create({
       data: {
         title,
