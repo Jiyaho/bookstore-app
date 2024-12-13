@@ -1,6 +1,7 @@
 import { useState, FormEvent } from "react";
 import { BookArgs } from "@/lib/types/BookInterface";
 import { Form, Input, Textarea, Button } from "@nextui-org/react";
+import isValidDate from "@/lib/utils/isValidateDate";
 
 interface BookInputFormProps {
   onClose: () => void;
@@ -44,6 +45,16 @@ export const BookInputForm = ({
           }));
           return false;
         }
+
+        // 유효한 날짜인지 확인
+        if (!isValidDate(value)) {
+          setErrors((prev) => ({
+            ...prev,
+            publishedAt: "유효한 날짜가 아닙니다. (예: 20241210)",
+          }));
+          return false;
+        }
+
         setErrors((prev) => ({ ...prev, publishedAt: "" }));
         return true;
 
